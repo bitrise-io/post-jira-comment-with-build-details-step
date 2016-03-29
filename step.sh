@@ -12,11 +12,6 @@ function send_message() {
 	url="https://$jira_domain/rest/api/2/issue/$JIRA_ISSUE_KEY/comment";
 	curl_command="eval curl -s -o /dev/null -w \"%{http_code}\" -u $jira_user:$jira_password -X POST --data $payload -H $content_type \"$url\""
 
-	jira_password_hash="$(echo -n "$jira_password" | md5sum)"
-	write_section_to_formatted_output "JIRA password hash is $jira_password_hash"
-	
-	write_section_to_formatted_output "curl request is: $curl_command"
-
 	# Execute the request
 	write_section_to_formatted_output "=> Executing curl request on $url with user $jira_user"
 	response=`$curl_command`
