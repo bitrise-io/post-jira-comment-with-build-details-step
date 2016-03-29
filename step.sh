@@ -1,16 +1,5 @@
 #!/bin/bash
 
-# INPUT:
-# 	$git_branch
-# 	$jira_user
-# 	$jira_password
-# 	$jira_domain
-# 	$jira_build_message			"The app $BITRISE_APP_TITLE is available [here|BITRISE_PUBLIC_INSTALL_PAGE_URL]"
-
-# OUTPOUT:
-#	$JIRA_ISSUE_KEY
-#	$JIRA_ISSUE_NAME
-
 THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # load bash utils
 source "${THIS_SCRIPT_DIR}/bash_utils/utils.sh"
