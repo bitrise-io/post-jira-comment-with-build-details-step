@@ -12,7 +12,7 @@ function send_message() {
 	curl_command="eval curl -s -o /dev/null -w \"%{http_code}\" -u $jira_user:$jira_password -X POST --data $payload -H $content_type \"https://$jira_domain/rest/api/2/issue/$JIRA_ISSUE_KEY/comment\""
 
 	# Execute the request
-	write_section_to_formatted_output "Executing curl request : $curl_command"
+	write_section_to_formatted_output "=> Executing curl request"
 	response=`$curl_command`
 	write_section_to_formatted_output "Reponse code is $response"
 	
