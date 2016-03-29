@@ -35,6 +35,6 @@ then
 	
 	send_message
 else
-	write_section_to_formatted_output "Invalid branch name";
+	write_section_to_formatted_output "Invalid branch name : $git_branch";
 	exit 1;
 fi
