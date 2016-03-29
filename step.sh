@@ -30,6 +30,11 @@ function send_message() {
 	fi
 }
 
+if [ -z "$jira_password" ];
+	write_section_to_formatted_output "Invalid JIRA password";
+	exit 1;
+fi
+
 regular_expression="(feature|hotfix)/([a-zA-Z]+\-[0-9]+)\-?(.*)"
 if [[ $git_branch =~ $regular_expression ]]; 
 then
