@@ -26,6 +26,7 @@ function send_message() {
 }
 
 if [ -z "$jira_password" ];
+then
 	write_section_to_formatted_output "Invalid JIRA password";
 	exit 1;
 fi
