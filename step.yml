@@ -13,6 +13,10 @@ is_always_run: false
 is_skippable: false
 dependencies:
 run_if: enveq "BITRISE_PULL_REQUEST" "" | and .IsCI
+  - manager: brew
+    name: php56
+  - manager: apt-get
+    name: php5-cli
 inputs:
   - git_branch:
     opts:
