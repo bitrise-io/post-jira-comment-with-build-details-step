@@ -13,7 +13,7 @@ function send_message() {
 	curl_command="eval curl -s -o /dev/null -w \"%{http_code}\" -u $jira_user:$jira_password -X POST --data $payload -H $content_type \"$url\""
 
 	if $debug ;
-	then ;
+	then
 		echo "Curl command = $curl_command";
 	fi
 
