@@ -20,7 +20,6 @@ inputs:
       summary: ""
       is_expand: false
       is_required: true
-      is_dont_change_value: true
       value_options: []
   - jira_user:
     opts:
@@ -28,7 +27,6 @@ inputs:
       summary: "JIRA account username that will be the author of the comment"
       is_expand: false
       is_required: true
-      is_dont_change_value: true
       value_options: []
   - jira_password:
     opts:
@@ -36,7 +34,6 @@ inputs:
       summary: "JIRA account password that will be the author of the comment"
       is_expand: false
       is_required: true
-      is_dont_change_value: true
       value_options: []
   - jira_build_message:
     opts:
@@ -44,7 +41,6 @@ inputs:
       summary: "The content of the build message that will be posted"
       is_expand: false
       is_required: true
-      is_dont_change_value: true
       value_options: []
   - jira_domain:
     opts:
@@ -52,7 +48,6 @@ inputs:
       summary: "JIRA website domain name"
       is_expand: false
       is_required: true
-      is_dont_change_value: true
       value_options: []
 outputs:
   - JIRA_ISSUE_KEY:
@@ -61,11 +56,9 @@ outputs:
       summary: The key of the issue where the comment has been posted
       is_expand: false
       is_required: true
-      is_dont_change_value: true
   - JIRA_ISSUE_NAME:
     opts:
       title: "JIRA issue name"
       summary: The name of the issue where the comment has been posted
       is_expand: false
       is_required: true
-      is_dont_change_value: true
