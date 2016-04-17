@@ -20,12 +20,12 @@ function send_message() {
 	# Execute the request
 	write_section_to_formatted_output "=> Executing curl request on $url with user $jira_user"
 	response=`$curl_command`
-	write_section_to_formatted_output "Reponse code is $response"
+	write_section_to_formatted_output "Response code is $response"
 	
 	# Check the response
 	if [ "$response" != 201 ]
 	then
-		write_section_to_formatted_output "The reponse code is not valid";
+		write_section_to_formatted_output "The response code is not valid";
 		exit 1;
 	fi
 }
