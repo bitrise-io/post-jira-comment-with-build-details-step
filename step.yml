@@ -1,6 +1,6 @@
 title: "Create JIRA comment with build"
 summary: Will post a comment on the issue page with build details (download link, build number, etc)
-description:
+description: Will post a comment on the issue page with build details (download link, build number, etc)
 website: https://github.com/dag-io/post-jira-comment-with-build-details-step
 source_code_url: https://github.com/dag-io/post-jira-comment-with-build-details-step.git
 support_url: https://github.com/dag-io/post-jira-comment-with-build-details-step/issues
@@ -14,10 +14,11 @@ is_skippable: false
 dependencies:
 run_if: enveq "BITRISE_PULL_REQUEST" "" | and .IsCI
 inputs:
-  - git_branch:
+  - git_branch: $BITRISE_GIT_BRANCH
     opts:
       title: "Git branch name"
-      summary: ""
+      summary: "The branch name for the build"
+      description: "The branch name for the build"
       is_expand: true
       is_required: true
       value_options: []
@@ -25,6 +26,7 @@ inputs:
     opts:
       title: "JIRA user"
       summary: "JIRA account username that will be the author of the comment"
+      description: "JIRA account username that will be the author of the comment"
       is_expand: true
       is_required: true
       value_options: []
@@ -32,20 +34,32 @@ inputs:
     opts:
       title: "JIRA user password"
       summary: "JIRA account password that will be the author of the comment"
+      description: "JIRA account password that will be the author of the comment"
       is_expand: true
       is_required: true
       value_options: []
-  - jira_build_message:
+  - jira_build_message: |
+      *$BITRISE_APP_TITLE* build *$BITRISE_BUILD_NUMBER* is now available: [Download|$BITRISE_PUBLIC_INSTALL_PAGE_URL]\n
+
+      ||Build number|$BITRISE_BUILD_NUMBER|\n
+      ||Author|$GIT_CLONE_COMMIT_AUTHOR_NAME|\n
+      ||Branch|$BITRISE_GIT_BRANCH|\n
+      ||Commit hash|$GIT_CLONE_COMMIT_HASH|\n
+      ||Commit message|$GIT_CLONE_COMMIT_MESSAGE_SUBJECT|\n
+
+      [Show build details|$BITRISE_BUILD_URL]
     opts:
       title: "Build message"
       summary: "The content of the build message that will be posted"
+      description: "The content of the build message that will be posted. You can use markdown. Details [here|https://jira.atlassian.com/secure/WikiRendererHelpAction.jspa?section=all]"
       is_expand: true
       is_required: true
       value_options: []
   - jira_domain:
     opts:
       title: "JIRA domain"
-      summary: "JIRA website domain name"
+      summary: "JIRA instance URL"
+      description: "JIRA instance URL (Ex: http://foobar.atlassian.net/)"
       is_expand: true
       is_required: true
       value_options: []
@@ -54,11 +68,13 @@ outputs:
     opts:
       title: "JIRA issue key"
       summary: The key of the issue where the comment has been posted
+      description: The key of the issue where the comment has been posted
       is_expand: true
       is_required: true
   - JIRA_ISSUE_NAME:
     opts:
       title: "JIRA issue name"
       summary: The name of the issue where the comment has been posted
+      description: The name of the issue where the comment has been posted
       is_expand: true
       is_required: true
