@@ -17,7 +17,7 @@ deps:
   brew:
   - name: php56
   apt_get:
-  - name: php
+  - name: php5
 run_if: enveq "BITRISE_PULL_REQUEST" "" | and .IsCI
 inputs:
   - git_branch: $BITRISE_GIT_BRANCH
