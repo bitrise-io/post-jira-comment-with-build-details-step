@@ -15,7 +15,7 @@ host_os_tags:
 - osx-10.11
 deps:
   brew:
-  - name: php56
+  - name: homebrew/php/php56
   apt_get:
   - name: php5
 run_if: enveq "BITRISE_PULL_REQUEST" "" | and .IsCI
