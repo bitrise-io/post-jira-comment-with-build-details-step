@@ -18,8 +18,7 @@ deps:
   - name: php56
   apt_get:
   - name: php
-#run_if: enveq "BITRISE_PULL_REQUEST" "" | and .IsCI
-run_if:
+run_if: enveq "BITRISE_PULL_REQUEST" "" | and .IsCI
 inputs:
   - git_branch: $BITRISE_GIT_BRANCH
     opts:
