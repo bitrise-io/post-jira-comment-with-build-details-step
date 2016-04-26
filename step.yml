@@ -7,11 +7,19 @@ support_url: https://github.com/dag-io/post-jira-comment-with-build-details-step
 type_tags:
   - jira
   - issue-tracker
-is_requires_admin_user: false
+is_requires_admin_user: true
 is_always_run: false
 is_skippable: false
-dependencies:
-run_if: enveq "BITRISE_PULL_REQUEST" "" | and .IsCI
+host_os_tags:
+- ubuntu-14.04
+- osx-10.11
+deps:
+  brew:
+  - name: php56
+  apt_get:
+  - name: php
+#run_if: enveq "BITRISE_PULL_REQUEST" "" | and .IsCI
+run_if:
 inputs:
   - git_branch: $BITRISE_GIT_BRANCH
     opts:
@@ -54,9 +62,9 @@ inputs:
       is_expand: true
       is_required: true
       value_options: []
-  - jira_domain:
+  - jira_url:
     opts:
-      title: "JIRA domain"
+      title: "JIRA URL"
       summary: "JIRA instance URL"
       description: "JIRA instance URL (Ex: http://foobar.atlassian.net/)"
       is_expand: true

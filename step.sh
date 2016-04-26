@@ -1,52 +1,54 @@
 #!/bin/bash
 
-THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-# load bash utils
-source "${THIS_SCRIPT_DIR}/bash_utils/utils.sh"
-source "${THIS_SCRIPT_DIR}/bash_utils/formatted_output.sh"
+THIS_SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-function send_message() {
-	# Prepare the request
-	content_type="Content-Type:application/json"
-	payload="'{\"body\": \"$jira_build_message\"}'"
-	url="https://$jira_domain/rest/api/2/issue/$JIRA_ISSUE_KEY/comment";
-	curl_command="eval curl -s -o /dev/null -w \"%{http_code}\" -u $jira_user:$jira_password -X POST --data $payload -H $content_type \"$url\""
+source "${THIS_SCRIPTDIR}/_bash_utils/utils.sh"
+source "${THIS_SCRIPTDIR}/_bash_utils/formatted_output.sh"
 
-	if $debug ;
-	then
-		echo "Curl command = $curl_command";
-	fi
+# init / cleanup the formatted output
+echo "" > "${formatted_output_file_path}"
 
-	# Execute the request
-	write_section_to_formatted_output "=> Executing curl request on $url with user $jira_user"
-	response=`$curl_command`
-	write_section_to_formatted_output "Response code is $response"
-	
-	# Check the response
-	if [ "$response" != 201 ]
-	then
-		write_section_to_formatted_output "The response code is not valid";
-		exit 1;
-	fi
-}
-
-if [ -z "$jira_password" ];
-then
-	write_section_to_formatted_output "Invalid JIRA password";
-	exit 1;
+if [ -z "${git_branch}" ] ; then
+	write_section_to_formatted_output "# Error"
+	write_section_start_to_formatted_output '* Required input `$git_branch` not provided!'
+	exit 1
 fi
 
-regular_expression="(feature|hotfix)/([a-zA-Z]+\-[0-9]+)\-?(.*)"
-if [[ $git_branch =~ $regular_expression ]]; 
-then
-	JIRA_ISSUE_KEY=${BASH_REMATCH[2]};
-	export JIRA_ISSUE_KEY;
-	
-	JIRA_ISSUE_NAME=${BASH_REMATCH[3]};	
-	export JIRA_ISSUE_NAME;
-	
-	send_message
-else
-	write_section_to_formatted_output "Invalid branch name : $git_branch";
-	exit 1;
+if [ -z "${jira_user}" ] ; then
+	write_section_to_formatted_output "# Error"
+	write_section_start_to_formatted_output '* Required input `$jira_user` not provided!'
+	exit 1
 fi
+
+if [ -z "${jira_password}" ] ; then
+	write_section_to_formatted_output "# Error"
+	write_section_start_to_formatted_output '* Required input `$jira_password` not provided!'
+	exit 1
+fi
+
+if [ -z "${jira_build_message}" ] ; then
+	write_section_to_formatted_output "# Error"
+	write_section_start_to_formatted_output '* Required input `$jira_build_message` not provided!'
+	exit 1
+fi
+
+if [ -z "${jira_url}" ] ; then
+	write_section_to_formatted_output "# Error"
+	write_section_start_to_formatted_output '* Required input `$jira_url` not provided!'
+	exit 1
+fi
+
+resp=$(php "${THIS_SCRIPTDIR}/post-jira-comment-with-build-details.phar")
+ex_code=$?
+
+if [ ${ex_code} -eq 0 ] ; then
+	echo "${resp}"
+	write_section_to_formatted_output "# Success"
+	echo_string_to_formatted_output "Message successfully sent."
+	exit 0
+fi
+
+write_section_to_formatted_output "# Error"
+write_section_to_formatted_output "Sending the message failed with the following error:"
+echo_string_to_formatted_output "${resp}"
+exit 1
