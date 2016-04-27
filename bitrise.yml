@@ -25,7 +25,18 @@ workflows:
         - jira_build_message: |-
             Hello There
             What's up ?
+    - script:
+        inputs:
+        - content: |-
+            #!/bin/bash
 
+            if envman print JIRA_ISSUE_KEY | grep JIRA_ISSUE_KEY ;
+            then
+                exit 0
+            fi
+
+            echo "Missing JIRA_ISSUE_KEY in envstore"
+            exit 1
 
   # ----------------------------------------------------------------
   # --- workflows to Share this step into a Step Library
