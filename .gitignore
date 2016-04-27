@@ -1,3 +1,1 @@
-.bitrise*
-_tmp
-bitrise.yml
+.bitrise.secrets.yml
