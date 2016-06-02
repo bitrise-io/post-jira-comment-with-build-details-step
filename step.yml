@@ -14,10 +14,8 @@ host_os_tags:
 - ubuntu-14.04
 - osx-10.11
 deps:
-  brew:
-  - name: homebrew/php/php56
   apt_get:
-  - name: php5
+  - name: php7.0
 run_if: .IsCI | and (not .IsPR)
 inputs:
   - git_branch: $BITRISE_GIT_BRANCH
