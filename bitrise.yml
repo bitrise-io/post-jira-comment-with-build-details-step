@@ -45,7 +45,7 @@ workflows:
       # if you want to share this step into a StepLib
       - MY_STEPLIB_REPO_FORK_GIT_URL: git@github.com:dag-io/bitrise-steplib.git
       - STEP_ID_IN_STEPLIB: post-jira-comment-with-build-details
-      - STEP_GIT_VERION_TAG_TO_SHARE: 0.1.8
+      - STEP_GIT_VERION_TAG_TO_SHARE: 0.1.9
       - STEP_GIT_CLONE_URL: https://github.com/dag-io/post-jira-comment-with-build-details-step.git
     description: |-
       If this is the first time you try to share a Step you should
