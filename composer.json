@@ -1,0 +1,23 @@
+{
+    "name": "dag-io/post-jira-comment-with-build-details",
+    "description": "Post a message on JIRA",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Damien Gavard",
+            "email": "damien.gavard@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "DAG\\JIRA\\Post\\": "src"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "symfony/console": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.3"
+    }
+}

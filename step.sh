@@ -38,7 +38,7 @@ if [ -z "${jira_url}" ] ; then
 	exit 1
 fi
 
-resp=$(php "${THIS_SCRIPTDIR}/post-jira-comment-with-build-details.phar")
+resp=$(php "${THIS_SCRIPTDIR}/application.php")
 ex_code=$?
 
 if [ ${ex_code} -eq 0 ] ; then
