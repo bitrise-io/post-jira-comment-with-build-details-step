@@ -15,6 +15,7 @@ workflows:
     - path::./:
         title: Step Test
         description: Step Test
+        run_if: true
         inputs:
         - CI: true
         - BITRISE_PULL_REQUEST: ""
@@ -30,7 +31,7 @@ workflows:
         - content: |-
             #!/bin/bash
 
-            if envman print JIRA_ISSUE_KEY | grep JIRA_ISSUE_KEY ;
+            if [ "$JIRA_ISSUE_KEY" = "DEMO-123" ] ;
             then
                 exit 0
             fi
