@@ -38,6 +38,12 @@ if [ -z "${jira_url}" ] ; then
 	exit 1
 fi
 
+if [ -z "${fail_missing_key}" ] ; then
+	write_section_to_formatted_output "# Error"
+	write_section_start_to_formatted_output '* Required input `$fail_missing_key` not provided!'
+	exit 1
+fi
+
 resp=$(php "${THIS_SCRIPTDIR}/application.php")
 ex_code=$?
 
