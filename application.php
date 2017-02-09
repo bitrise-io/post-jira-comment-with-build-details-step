@@ -16,6 +16,7 @@ $input = new ArgvInput(
         isset($_SERVER['jira_password']) ? $_SERVER['jira_password'] : null,
         isset($_SERVER['jira_build_message']) ? $_SERVER['jira_build_message'] : null,
         isset($_SERVER['jira_url']) ? $_SERVER['jira_url'] : null,
+        isset($_SERVER['jira_project']) ? $_SERVER['jira_project'] : null,
     ]
 );
 

@@ -41,6 +41,10 @@ final class PostMessageCommand extends Command
             ->addArgument(
                 'jira-url',
                 InputArgument::REQUIRED
+            )
+            ->addArgument(
+                'jira-project',
+                InputArgument::OPTIONAL
             );
     }
 
@@ -51,12 +55,13 @@ final class PostMessageCommand extends Command
         $table->addRow(['git-branch', $input->getArgument('git-branch')]);
         $table->addRow(['jira-url', $input->getArgument('jira-url')]);
         $table->addRow(['jira-user', $input->getArgument('jira-user')]);
+        $table->addRow(['jira-project', $input->getArgument('jira-project')]);
         $table->addRow(['jira-build-message', $input->getArgument('jira-build-message')]);
 
         $table->render();
 
         $issueKeyResolver = new IssueKeyResolver();
-        $issueKey = $issueKeyResolver->resolveKeyFromBranchName($input->getArgument('git-branch'));
+        $issueKey = $issueKeyResolver->resolveKeyFromBranchName($input->getArgument('git-branch'), $input->getArgument('jira-project'));
         $output->writeln(sprintf('The issue key is "%s"', $issueKey));
 
         $client = new Client(
