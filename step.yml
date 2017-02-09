@@ -45,8 +45,8 @@ inputs:
   - jira_project:
     opts:
       title: "JIRA project"
-      summary: "JIRA project that will be added to the issue ID"
-      description: "JIRA project that will be added to the issue ID to form the issue key. If none provided, then the issue key must appear in the branch name"
+      summary: "JIRA project key that will be added to the issue ID"
+      description: "JIRA project key that will be added to the issue ID to form the issue key (usually in the form XXX, with issue keys named XXX-123). If none provided, then the issue key must appear in the branch name."
       is_expand: true
       is_required: false
       value_options: []
