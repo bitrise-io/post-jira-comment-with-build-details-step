@@ -11,7 +11,7 @@ app:
   - JIRA_PROJECT: $JIRA_PROJECT
 
 workflows:
-  test:
+  test_full:
     steps:
     - path::./:
         title: Step Test
@@ -40,6 +40,14 @@ workflows:
 
             echo "Missing JIRA_ISSUE_KEY in envstore"
             exit 1
+  test:
+    steps:
+    - script:
+        inputs:
+        - content: |-
+            #!/bin/bash
+
+            vendor/bin/phpunit
 
   # ----------------------------------------------------------------
   # --- workflows to Share this step into a Step Library
