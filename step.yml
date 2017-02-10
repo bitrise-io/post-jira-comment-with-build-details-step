@@ -42,6 +42,14 @@ inputs:
       is_expand: true
       is_required: true
       value_options: []
+  - jira_project:
+    opts:
+      title: "JIRA project"
+      summary: "JIRA project key that will be added to the issue ID"
+      description: "JIRA project key that will be added to the issue ID to form the issue key (usually in the form XXX, with issue keys named XXX-123). If none provided, then the issue key must appear in the branch name."
+      is_expand: true
+      is_required: false
+      value_options: []
   - jira_build_message: |
       *$BITRISE_APP_TITLE* build *$BITRISE_BUILD_NUMBER* is now available: [Download|$BITRISE_PUBLIC_INSTALL_PAGE_URL]\n
 

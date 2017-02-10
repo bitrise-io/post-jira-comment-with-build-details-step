@@ -12,6 +12,8 @@ class IssueKeyResolverTest extends PHPUnit_Framework_TestCase
         return [
             ['FOO-123', 'feature/FOO-123-Add-Something'],
             ['FOO-123', 'hotfix/FOO-123-Add-Something'],
+            ['FOO-123', 'bugfix/FOO-123-Add-Something'],
+            ['FOO-123', 'bug/FOO-123-Add-Something'],
             ['FOO-123', 'FOO-123-Add-Something'],
             ['FOO-123', 'release/v0.1.0-FOO-123-Add-Something'],
             ['FOO-123', 'hotfix/v0.1.0-FOO-123-Add-Something'],
@@ -30,6 +32,21 @@ class IssueKeyResolverTest extends PHPUnit_Framework_TestCase
     {
         $resolver = new IssueKeyResolver();
         $actualIssueKey = $resolver->resolveKeyFromBranchName($branchName);
+        $this->assertEquals($expectedIssueKey, $actualIssueKey);
+    }
+
+    /**
+     * @param string $issueKey
+     * @param string $branchName
+     *
+     * @dataProvider dataProvider
+     */
+    public function testIssueKeyResolvedWithProject($expectedIssueKey, $branchName)
+    {
+        $resolver = new IssueKeyResolver();
+        $branchNameWithoutProjectKey = str_replace('FOO-', '', $branchName);
+        $projectKey = 'FOO';
+        $actualIssueKey = $resolver->resolveKeyFromBranchName($branchNameWithoutProjectKey, $projectKey);
         $this->assertEquals($expectedIssueKey, $actualIssueKey);
     }
 

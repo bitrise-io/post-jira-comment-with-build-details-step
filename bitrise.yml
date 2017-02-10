@@ -8,6 +8,7 @@ app:
   - JIRA_USER: $JIRA_USER
   - JIRA_PASSWORD: $JIRA_PASSWORD
   - JIRA_URL: $JIRA_URL
+  - JIRA_PROJECT: $JIRA_PROJECT
 
 workflows:
   test:
@@ -23,6 +24,7 @@ workflows:
         - jira_user: $JIRA_USER
         - jira_password: $JIRA_PASSWORD
         - jira_url: $JIRA_URL
+        - jira_project: $JIRA_PROJECT
         - jira_build_message: |-
             Hello There
             What's up ?
