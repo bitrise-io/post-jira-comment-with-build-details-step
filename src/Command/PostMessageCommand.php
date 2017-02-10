@@ -43,6 +43,10 @@ final class PostMessageCommand extends Command
                 InputArgument::REQUIRED
             )
             ->addArgument(
+                'fail-missing-key',
+                InputArgument::REQUIRED
+            )
+            ->addArgument(
                 'jira-project',
                 InputArgument::OPTIONAL
             );
@@ -57,28 +61,37 @@ final class PostMessageCommand extends Command
         $table->addRow(['jira-user', $input->getArgument('jira-user')]);
         $table->addRow(['jira-project', $input->getArgument('jira-project')]);
         $table->addRow(['jira-build-message', $input->getArgument('jira-build-message')]);
+        $table->addRow(['fail-missing-key', $input->getArgument('fail-missing-key')]);
 
         $table->render();
 
         $issueKeyResolver = new IssueKeyResolver();
-        $issueKey = $issueKeyResolver->resolveKeyFromBranchName($input->getArgument('git-branch'), $input->getArgument('jira-project'));
-        $output->writeln(sprintf('The issue key is "%s"', $issueKey));
+        try {
+            $issueKey = $issueKeyResolver->resolveKeyFromBranchName($input->getArgument('git-branch'), $input->getArgument('jira-project'));
+            $output->writeln(sprintf('The issue key is "%s"', $issueKey));
 
-        $client = new Client(
-            $input->getArgument('jira-user'),
-            $input->getArgument('jira-password'),
-            $input->getArgument('jira-url')
-        );
+            $client = new Client(
+                $input->getArgument('jira-user'),
+                $input->getArgument('jira-password'),
+                $input->getArgument('jira-url')
+            );
 
-        $message = $input->getArgument('jira-build-message');
-        $client->postComment($issueKey, $message);
+            $message = $input->getArgument('jira-build-message');
+            $client->postComment($issueKey, $message);
 
-        // Set environment variable
-        $out = $returnValue = null;
-        exec('envman add --key JIRA_ISSUE_KEY --value "'.$issueKey.'"', $out, $returnValue);
+            // Set environment variable
+            $out = $returnValue = null;
+            exec('envman add --key JIRA_ISSUE_KEY --value "' . $issueKey . '"', $out, $returnValue);
 
-        if ($returnValue != 0) {
-            throw new \Exception("Can not export environment variable");
+            if ($returnValue != 0) {
+                throw new \Exception("Can not export environment variable");
+            }
+        } catch (\InvalidArgumentException $e) {
+            if ($input->getArgument('fail-missing-key') == "true") {
+                throw $e;
+            } else {
+                $output->writeln(sprintf('Issue key not found, no message sent'));
+            }
         }
     }
 }
