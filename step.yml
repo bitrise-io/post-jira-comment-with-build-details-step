@@ -16,7 +16,16 @@ host_os_tags:
 deps:
   apt_get:
   - name: php7.0
-run_if: .IsCI | and (not .IsPR)
+run_if: |-
+  {{if .IsCI}}
+    {{if .IsPR}}
+      {{enveq "POST_JIRA_COMMENT_ON_PR" "true"}}
+    {{else}}
+      true
+    {{end}}
+  {{else}}
+    false
+  {{end}}
 inputs:
   - git_branch: $BITRISE_GIT_BRANCH
     opts:
