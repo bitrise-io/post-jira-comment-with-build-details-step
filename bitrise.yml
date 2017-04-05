@@ -9,6 +9,7 @@ app:
   - JIRA_PASSWORD: $JIRA_PASSWORD
   - JIRA_URL: $JIRA_URL
   - JIRA_PROJECT: $JIRA_PROJECT
+  - JIRA_ISSUE_KEY: $JIRA_ISSUE_KEY
 
 workflows:
   test_full:
@@ -25,6 +26,7 @@ workflows:
         - jira_password: $JIRA_PASSWORD
         - jira_url: $JIRA_URL
         - jira_project: $JIRA_PROJECT
+        - jira_issue_key: $JIRA_ISSUE_KEY
         - jira_build_message: |-
             Hello There
             What's up ?

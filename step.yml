@@ -50,6 +50,14 @@ inputs:
       is_expand: true
       is_required: false
       value_options: []
+  - jira_issue_key:
+    opts:
+      title: "JIRA issue key"
+      summary: "JIRA issue key, if found earlier in the workflow"
+      description: "This step can find the issue key from the branch name, but if you want to provide it as part of the environment or determine it earlier in the workflow, you can."
+      is_expand: true
+      is_required: false
+      value_options: []
   - jira_build_message: |
       *$BITRISE_APP_TITLE* build *$BITRISE_BUILD_NUMBER* is now available: [Download|$BITRISE_PUBLIC_INSTALL_PAGE_URL]\n
 

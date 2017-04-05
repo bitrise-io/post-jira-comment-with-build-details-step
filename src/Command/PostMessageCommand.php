@@ -1,4 +1,5 @@
 <?php
+
 namespace DAG\JIRA\Post\Command;
 
 use DAG\JIRA\Post\Client;
@@ -45,6 +46,10 @@ final class PostMessageCommand extends Command
             ->addArgument(
                 'jira-project',
                 InputArgument::OPTIONAL
+            )
+            ->addArgument(
+                'jira-issue-key',
+                InputArgument::OPTIONAL
             );
     }
 
@@ -56,12 +61,18 @@ final class PostMessageCommand extends Command
         $table->addRow(['jira-url', $input->getArgument('jira-url')]);
         $table->addRow(['jira-user', $input->getArgument('jira-user')]);
         $table->addRow(['jira-project', $input->getArgument('jira-project')]);
+        $table->addRow(['jira-issue-key', $input->getArgument('jira-issue-key')]);
         $table->addRow(['jira-build-message', $input->getArgument('jira-build-message')]);
 
         $table->render();
 
-        $issueKeyResolver = new IssueKeyResolver();
-        $issueKey = $issueKeyResolver->resolveKeyFromBranchName($input->getArgument('git-branch'), $input->getArgument('jira-project'));
+        $issueKey = $input->getArgument('jira-issue-key');
+        $issueKeyInInput = $issueKey != null;
+        if (!$issueKeyInInput) {
+            $issueKeyResolver = new IssueKeyResolver();
+            $issueKey = $issueKeyResolver->resolveKeyFromBranchName($input->getArgument('git-branch'), $input->getArgument('jira-project'));
+        }
+
         $output->writeln(sprintf('The issue key is "%s"', $issueKey));
 
         $client = new Client(
@@ -75,7 +86,10 @@ final class PostMessageCommand extends Command
 
         // Set environment variable
         $out = $returnValue = null;
-        exec('envman add --key JIRA_ISSUE_KEY --value "'.$issueKey.'"', $out, $returnValue);
+
+        if (!$issueKeyInInput) {
+            exec('envman add --key JIRA_ISSUE_KEY --value "' . $issueKey . '"', $out, $returnValue);
+        }
 
         if ($returnValue != 0) {
             throw new \Exception("Can not export environment variable");
