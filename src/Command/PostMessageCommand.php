@@ -11,6 +11,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -47,9 +48,10 @@ final class PostMessageCommand extends Command
                 'jira-project',
                 InputArgument::OPTIONAL
             )
-            ->addArgument(
+            ->addOption(
                 'jira-issue-key',
-                InputArgument::OPTIONAL
+                null,
+                InputOption::VALUE_REQUIRED
             );
     }
 
@@ -61,12 +63,12 @@ final class PostMessageCommand extends Command
         $table->addRow(['jira-url', $input->getArgument('jira-url')]);
         $table->addRow(['jira-user', $input->getArgument('jira-user')]);
         $table->addRow(['jira-project', $input->getArgument('jira-project')]);
-        $table->addRow(['jira-issue-key', $input->getArgument('jira-issue-key')]);
+        $table->addRow(['jira-issue-key', $input->getOption('jira-issue-key')]);
         $table->addRow(['jira-build-message', $input->getArgument('jira-build-message')]);
 
         $table->render();
 
-        $issueKey = $input->getArgument('jira-issue-key');
+        $issueKey = $input->getOption('jira-issue-key');
         $issueKeyInInput = $issueKey != null;
         if (!$issueKeyInInput) {
             $issueKeyResolver = new IssueKeyResolver();

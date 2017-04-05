@@ -17,7 +17,7 @@ $input = new ArgvInput(
         isset($_SERVER['jira_build_message']) ? $_SERVER['jira_build_message'] : null,
         isset($_SERVER['jira_url']) ? $_SERVER['jira_url'] : null,
         isset($_SERVER['jira_project']) ? $_SERVER['jira_project'] : null,
-        isset($_SERVER['jira_issue_key']) ? $_SERVER['jira_issue_key'] : null,
+        isset($_SERVER['jira_issue_key']) ? "--jira-issue-key=".$_SERVER['jira_issue_key'] : null,
     ]
 );
 
