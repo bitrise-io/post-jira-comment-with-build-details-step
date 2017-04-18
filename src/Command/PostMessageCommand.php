@@ -75,6 +75,12 @@ final class PostMessageCommand extends Command
             $issueKey = $issueKeyResolver->resolveKeyFromBranchName($input->getArgument('git-branch'), $input->getArgument('jira-project'));
         }
 
+        if (!$issueKey) {
+            $output->writeln("No issue key found. Skipping");
+
+            return;
+        }
+
         $output->writeln(sprintf('The issue key is "%s"', $issueKey));
 
         $client = new Client(
