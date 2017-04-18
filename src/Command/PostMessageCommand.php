@@ -100,7 +100,7 @@ final class PostMessageCommand extends Command
         }
 
         if ($returnValue != 0) {
-            throw new \Exception("Can not export environment variable");
+            $output->writeln("Can not export environment variable");
         }
     }
 }
