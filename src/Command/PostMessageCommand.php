@@ -4,6 +4,7 @@ namespace DAG\JIRA\Post\Command;
 
 use DAG\JIRA\Post\Client;
 use DAG\JIRA\Post\IssueKeyResolver;
+use InvalidArgumentException;
 use Jira\JiraClient;
 use Jira_Api;
 use Jira_Api_Authentication_Basic;
@@ -72,7 +73,14 @@ final class PostMessageCommand extends Command
         $issueKeyInInput = $issueKey != null;
         if (!$issueKeyInInput) {
             $issueKeyResolver = new IssueKeyResolver();
-            $issueKey = $issueKeyResolver->resolveKeyFromBranchName($input->getArgument('git-branch'), $input->getArgument('jira-project'));
+
+            try {
+                $issueKey = $issueKeyResolver->resolveKeyFromBranchName($input->getArgument('git-branch'), $input->getArgument('jira-project'));
+            } catch (InvalidArgumentException $ex) {
+                $output->writeln("Error: " . $ex->getMessage());
+
+                return;
+            }
         }
 
         if (!$issueKey) {
