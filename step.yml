@@ -5,6 +5,7 @@ website: https://github.com/dag-io/post-jira-comment-with-build-details-step
 source_code_url: https://github.com/dag-io/post-jira-comment-with-build-details-step.git
 support_url: https://github.com/dag-io/post-jira-comment-with-build-details-step/issues
 type_tags:
+  - utility
   - jira
   - issue-tracker
 is_requires_admin_user: true
